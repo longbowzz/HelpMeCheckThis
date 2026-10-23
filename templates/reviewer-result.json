@@ -1,0 +1,27 @@
+{
+  "schema_version": "1.0",
+  "task_id": "<task_id>",
+  "reviewer_id": "<reviewer_id>",
+  "domain": "<domain>",
+  "target_digest": "<digest>",
+  "review_status": "complete",
+  "scope_checked": [],
+  "methods_used": [],
+  "checks_performed": [],
+  "findings": [
+    {
+      "id": "<finding_id>",
+      "severity": "medium",
+      "confidence": "medium",
+      "title": "<short claim>",
+      "location": {"path": "<path>", "start_line": 1, "end_line": 1},
+      "failure_scenario": "<concrete input or state>",
+      "evidence": ["evidence/<existing-file-containing-command-output-or-source-trace>"],
+      "impact": "<consequence>",
+      "recommendation": "<action>"
+    }
+  ],
+  "assumptions": [],
+  "limitations": [],
+  "evidence": []
+}

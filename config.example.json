@@ -1,0 +1,16 @@
+{
+  "communication_dir": ".helpmecheckthis",
+  "max_parallel": 3,
+  "agents": [
+    {
+      "id": "example-cli",
+      "enabled": false,
+      "argv": ["example-reviewer", "--assignment", "{assignment}"],
+      "version_args": ["--version"],
+      "configured_model": null,
+      "time_budget_seconds": null,
+      "token_budget": null,
+      "token_budget_enforcement": "unsupported"
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "stage": "pr",
+  "isolation": "git-worktree",
+  "head_ref": "REPLACE_WITH_PR_HEAD_COMMIT_OR_REF",
+  "base_ref": "REPLACE_WITH_PR_BASE_COMMIT_OR_REF",
+  "target_digest": "REPLACE_WITH_CAPTURED_TARGET_FINGERPRINT",
+  "confirmed": false,
+  "intensity": "standard",
+  "domains": ["correctness", "completeness"],
+  "tasks": [
+    {
+      "task_id": "correctness-01",
+      "reviewer_id": "claude",
+      "kind": "cli",
+      "domain": "correctness",
+      "language": "English",
+      "methods": ["diff and context tracing", "targeted tests"],
+      "assignment": "Review the supplied target for correctness. Trace relevant callers and validate concrete failure scenarios. Account for all assigned scope before submitting.",
+      "time_budget_seconds": null,
+      "token_budget": null
+    },
+    {
+      "task_id": "completeness-01",
+      "reviewer_id": "host-subagent",
+      "kind": "native_subagent",
+      "domain": "completeness",
+      "language": "English",
+      "methods": ["adversarial edge cases", "requirements cross-check"],
+      "assignment": "Independently check missing requirements, boundary conditions, and failure paths. Do not read other reviewers' results.",
+      "time_budget_seconds": null,
+      "token_budget": null
+    }
+  ]
+}
