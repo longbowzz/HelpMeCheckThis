@@ -49,9 +49,21 @@ Review intensity ranges from **quick** and **standard** to **deep** and **meticu
 
 ## Get started
 
-**Requirements:** a Skill-capable host Agent and Python 3.10+. No third-party Python packages are required. Node.js 20+ is needed only for the npm install path. External reviewers must already be configured; this Skill does not perform login and can use existing proxy or relay configurations.
+**Requirements:** a Skill-capable host Agent and Python 3.10+. No third-party Python packages are required. Node.js 20+ is needed for the npx and npm install paths. External reviewers must already be configured; this Skill does not perform login and can use existing proxy or relay configurations.
 
 ### Install
+
+With npx (recommended; installs the Skill from GitHub):
+
+```bash
+npx skills add longbowzz/HelpMeCheckThis
+```
+
+Project-level install is the default. Add `-g` for a user-level install, `-a claude-code` to target an agent, and `-y` for non-interactive use:
+
+```bash
+npx skills add longbowzz/HelpMeCheckThis -g -a claude-code -y
+```
 
 With npm (version-pinned, recommended when your project uses a lockfile):
 
@@ -61,12 +73,6 @@ npx skills experimental_sync -a claude-code
 ```
 
 The package ships `SKILL.md` at its root; `skills sync` links it from `node_modules` into your agent's skill directory. Commit the generated `skills-lock.json` and links if your team needs reproducible installs. Installing the package with `npm install -g` only provides the `helpmecheck` CLI; the Skill itself is registered by `skills add` or `skills sync`.
-
-From Git, without npm:
-
-```bash
-npx skills add longbowzz/HelpMeCheckThis
-```
 
 Or copy the Skill files into your host's Skill directory, preserving `SKILL.md`, `references/`, `templates/` and `scripts/`. For Claude Code, use either:
 
@@ -78,22 +84,6 @@ The directory name must match `name` in `SKILL.md`. For other hosts, register [S
 ```text
 /help-me-check-this
 ```
-
-After an npm install, the packaged CLI is available for manual setup and debugging:
-
-```bash
-npx helpmecheck --version
-npx helpmecheck discover --versions
-```
-
-To run the CLI without installing anything into the project:
-
-```bash
-npx help-me-check-this --version
-npx help-me-check-this discover --versions
-```
-
-`npx` only runs the CLI; it does not register the Skill. Use the npm + `skills sync` or Git `skills add` steps above to register it.
 
 Or ask your Agent:
 
