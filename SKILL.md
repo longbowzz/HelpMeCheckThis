@@ -1,6 +1,7 @@
 ---
 name: help-me-check-this
 description: Use when a vibe-coding task, plan, implementation, pull request, document, or visual deliverable needs an independent multi-domain review coordinated across configured CLI agents and native subagents.
+license: MIT
 ---
 
 # HelpMeCheckThis
@@ -60,7 +61,7 @@ On first use, or when the user requests setup, use the local setup flow:
 4. Let the user enable or disable candidates, set per-agent time/token budgets (default `null`/unlimited), set concurrency, and choose the communication directory.
 5. Save only non-secret configuration. Never write API keys, tokens, or full environment dumps to evidence.
 
-Use `scripts/helpmecheck.py discover`, `probe`, and `config` for deterministic local operations. Native subagent availability comes from the host and is not guessed by this script.
+Use `scripts/helpmecheck.py discover`, `probe`, and `config` for deterministic local operations. Native subagent availability comes from the host and is not guessed by this script. The local runner requires Python 3.10+ and has no third-party dependencies. Resolve `scripts/`, `references/` and `templates/` against the installed Skill directory: the npm package root (for example `node_modules/help-me-check-this`) or the linked directory created by `skills sync`.
 
 ### Agent invocation and permissions
 

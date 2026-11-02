@@ -2,3 +2,7 @@
 __pycache__/
 *.py[cod]
 .pytest_cache/
+node_modules/
+*.tgz
+.DS_Store
+.venv/

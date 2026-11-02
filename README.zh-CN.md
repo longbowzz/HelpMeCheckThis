@@ -2,6 +2,9 @@
 
 **中文** | [English](README.md)
 
+[![npm](https://img.shields.io/npm/v/help-me-check-this.svg)](https://www.npmjs.com/package/help-me-check-this)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/longbowzz/HelpMeCheckThis/blob/main/LICENSE)
+
 **让其他 Agent 从不同角度，检查你的 Agent 的产出。**
 
 HelpMeCheckThis 是面向 vibe-coding 工作流的 Skill。它指导主 Agent 邀请其他 Agent，独立审查任务规划、代码、Pull Request、文档和 UI 产出，再复核和汇总发现，给出有依据、可行动的建议。
@@ -46,18 +49,51 @@ flowchart TD
 
 ## 开始使用
 
-**要求：**支持 Skill 的宿主 Agent，以及 Python 3.10 或更新版本，无第三方 Python 依赖。外部审查 CLI 应已有可用配置；本 Skill 不处理登录，可沿用代理或中转站。
+**要求：**支持 Skill 的宿主 Agent，以及 Python 3.10 或更新版本，无第三方 Python 依赖。只有通过 npm 安装时才需要 Node.js 20+。外部审查 CLI 应已有可用配置；本 Skill 不处理登录，可沿用代理或中转站。
 
-将本仓库复制到宿主的 Skill 目录，保留 `SKILL.md`、`references/`、`templates/` 和 `scripts/`。Claude Code 可以选择：
+### 安装
+
+使用 npm（推荐在需要锁定版本的项目中使用）：
+
+```bash
+npm install -D help-me-check-this skills@^1.7.4
+npx skills experimental_sync -a claude-code
+```
+
+包根目录包含 `SKILL.md`，`skills sync` 会把 `node_modules` 中的 Skill 链接到宿主的 Skill 目录。需要团队内可复现时，提交生成的 `skills-lock.json` 和链接。仅执行 `npm install -g` 只会安装 `helpmecheck` CLI，不会自动注册 Skill；注册仍需要 `skills add` 或 `skills sync`。
+
+不使用 npm 时，也可以从 Git 安装：
+
+```bash
+npx skills add longbowzz/HelpMeCheckThis
+```
+
+或将 Skill 文件复制到宿主的 Skill 目录，保留 `SKILL.md`、`references/`、`templates/` 和 `scripts/`。Claude Code 可以选择：
 
 - 项目级安装：`<project>/.claude/skills/help-me-check-this/`
 - 用户级安装：`~/.claude/skills/help-me-check-this/`
 
-其他宿主请通过其支持的 Skill 机制注册 [SKILL.md](SKILL.md)。支持斜杠调用的宿主可以运行：
+目录名必须与 `SKILL.md` 中的 `name` 一致。其他宿主请通过其支持的 Skill 机制注册 [SKILL.md](SKILL.md)。支持斜杠调用的宿主可以运行：
 
 ```text
 /help-me-check-this
 ```
+
+通过 npm 安装后，可以直接使用打包的 CLI 做手动配置和排查：
+
+```bash
+npx helpmecheck --version
+npx helpmecheck discover --versions
+```
+
+如果只想临时运行 CLI、不安装到项目：
+
+```bash
+npx help-me-check-this --version
+npx help-me-check-this discover --versions
+```
+
+`npx` 只运行 CLI，不会注册 Skill；注册仍需上面的 npm + `skills sync` 或 Git `skills add`。
 
 也可以直接告诉 Agent：
 

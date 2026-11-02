@@ -1,0 +1,56 @@
+{
+  "name": "help-me-check-this",
+  "version": "0.1.0",
+  "description": "Agent skill that orchestrates independent, multi-domain reviews across configured CLI agents and native subagents.",
+  "license": "MIT",
+  "type": "commonjs",
+  "author": {
+    "name": "longbowzz",
+    "url": "https://github.com/longbowzz"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/longbowzz/HelpMeCheckThis.git"
+  },
+  "homepage": "https://github.com/longbowzz/HelpMeCheckThis#readme",
+  "bugs": {
+    "url": "https://github.com/longbowzz/HelpMeCheckThis/issues"
+  },
+  "keywords": [
+    "agent-skill",
+    "agent-skills",
+    "claude-code",
+    "codex",
+    "code-review",
+    "multi-agent",
+    "ai-agent",
+    "skill"
+  ],
+  "bin": {
+    "helpmecheck": "bin/helpmecheck.js"
+  },
+  "files": [
+    "SKILL.md",
+    "README.md",
+    "README.zh-CN.md",
+    "LICENSE",
+    "config.example.json",
+    "references/",
+    "templates/",
+    "scripts/",
+    "bin/",
+    "!**/__pycache__/**",
+    "!**/*.pyc"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "test": "python3 -B -m unittest discover -s tests -v",
+    "check:pack": "node tools/check-pack.mjs",
+    "prepublishOnly": "npm test && npm run check:pack"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

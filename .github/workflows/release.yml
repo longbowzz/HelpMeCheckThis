@@ -1,0 +1,62 @@
+name: release
+
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          registry-url: "https://registry.npmjs.org"
+
+      # Trusted publishing requires npm >= 11.5.1; GitHub-hosted Node 22 may
+      # still bundle npm 10.
+      - name: Upgrade npm
+        run: npm install -g npm@latest
+
+      - name: Verify tag matches package version
+        run: |
+          node -e "const p=require('./package.json'); if ('v'+p.version !== process.env.GITHUB_REF_NAME) { console.error('tag/version mismatch'); process.exit(1); }"
+
+      - run: npm test
+
+      - run: npm run check:pack
+
+      - name: Check whether this version is already published
+        id: published
+        run: |
+          NAME=$(node -p "require('./package.json').name")
+          VERSION=$(node -p "require('./package.json').version")
+          if npm view "$NAME@$VERSION" version >/dev/null 2>&1; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      # First release is published manually. After the package exists, configure
+      # npm Trusted Publishing for this repository and remove registry-url plus
+      # NODE_AUTH_TOKEN to publish with OIDC instead of a long-lived token.
+      - name: Publish
+        if: steps.published.outputs.exists == 'false'
+        run: npm publish --provenance --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Skip already-published version
+        if: steps.published.outputs.exists == 'true'
+        run: |
+          echo "::notice::$(node -p "require('./package.json').name")@$(node -p "require('./package.json').version") is already published; skipping npm publish."

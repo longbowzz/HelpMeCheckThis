@@ -20,6 +20,9 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
+# npm installs place this package under node_modules; do not write bytecode there.
+sys.dont_write_bytecode = True
+
 try:
     from .adapters.catalog import DEFAULT_AGENTS
 except ImportError:
@@ -28,7 +31,9 @@ except ImportError:
     except ImportError:
         DEFAULT_AGENTS = []
 
+# Persisted artifact schema version. Keep independent of the npm package version.
 VERSION = "1.0"
+__version__ = "0.1.0"
 INTENSITIES = ("quick", "standard", "deep", "meticulous")
 SEVERITIES = {"blocker", "high", "medium", "low", "note"}
 CONFIDENCES = {"high", "medium", "low"}
@@ -862,7 +867,8 @@ def collect(run_dir: Path) -> dict:
 
 
 def main(argv=None) -> int:
-    parser = argparse.ArgumentParser(description=__doc__)
+    parser = argparse.ArgumentParser(prog="helpmecheck", description=__doc__)
+    parser.add_argument("--version", action="version", version=f"%(prog)s {__version__}")
     sub = parser.add_subparsers(dest="command", required=True)
     p = sub.add_parser("discover", help="Resolve local executables; optional bounded version checks, no model calls")
     p.add_argument("--versions", action="store_true", help="Run configured version_args with a five-second timeout")
