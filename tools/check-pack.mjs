@@ -15,11 +15,19 @@ if (packed.status !== 0) {
   process.exit(packed.status ?? 1);
 }
 
-let report;
+let parsed;
 try {
-  [report] = JSON.parse(packed.stdout);
+  parsed = JSON.parse(packed.stdout);
 } catch {
   process.stderr.write(`could not parse npm pack output:\n${packed.stdout}\n`);
+  process.exit(1);
+}
+
+// npm <= 11 returns an array; npm 12 returns an object keyed by package name.
+const reports = Array.isArray(parsed) ? parsed : Object.values(parsed);
+const report = reports.find((entry) => Array.isArray(entry && entry.files));
+if (!report) {
+  process.stderr.write(`npm pack output did not contain a file list:\n${packed.stdout}\n`);
   process.exit(1);
 }
 
